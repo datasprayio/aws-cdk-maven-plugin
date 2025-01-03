@@ -33,7 +33,7 @@ Requirements:
 
 | Depdenency                | Version    |
 |---------------------------|------------|
-| Java                      | >= 8       |
+| Java                      | >= 11      |
 | Maven                     | >= 3.5     |
 | AWS CDK                   | <= 2.173.4 |
 | AWS Cloud Assembly Schema | <= 39.1.35 |
