@@ -21,34 +21,34 @@ public class DeployImpl implements Deploy {
     private static final Logger logger = LoggerFactory.getLogger(DeployImpl.class);
 
     @Override
-    public void execute(CloudAssembly cloudAssembly, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssembly), toolkitStackName, stacks, parameters, tags, notificationArns, profileOpt);
+    public void execute(CloudAssembly cloudAssembly, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssembly), toolkitStackName, stacks, parameters, tags, notificationArns, profileOpt, endpointUrlOpt);
     }
 
     @Override
-    public void execute(Path cloudAssemblyDirectory, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssemblyDirectory), toolkitStackName, stacks, parameters, tags, notificationArns, profileOpt);
+    public void execute(Path cloudAssemblyDirectory, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssemblyDirectory), toolkitStackName, stacks, parameters, tags, notificationArns, profileOpt, endpointUrlOpt);
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly) {
         execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME,
                 ImmutableSet.copyOf(Lists.transform(cloudAssembly.getStacks(), CloudFormationStackArtifact::getStackName)),
-                null, null, ImmutableSet.of(), Optional.empty());
+                null, null, ImmutableSet.of(), Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, String... stacks) {
-        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, ImmutableSet.copyOf(stacks), null, null, ImmutableSet.of(), Optional.empty());
+        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, ImmutableSet.copyOf(stacks), null, null, ImmutableSet.of(), Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, Set<String> stacks, String profile) {
-        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, stacks, null, null, ImmutableSet.of(), Optional.of(profile));
+        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, stacks, null, null, ImmutableSet.of(), Optional.of(profile), Optional.empty());
     }
 
-    private void execute(CloudDefinition cloudDefinition, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt) {
-        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null));
+    private void execute(CloudDefinition cloudDefinition, String toolkitStackName, Set<String> stacks, Map<String, String> parameters, Map<String, String> tags, Set<String> notificationArns, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null), endpointUrlOpt);
         if (stacks != null && !stacks.isEmpty() && logger.isWarnEnabled()) {
             Set<String> undefinedStacks = new HashSet<>(stacks);
             cloudDefinition.getStacks().forEach(stack -> undefinedStacks.remove(stack.getStackName()));

@@ -22,6 +22,7 @@ public interface Bootstrap {
      * will be reused.
      * @param bootstrapTags Tags that will be added to the bootstrap stack.
      * @param profileOpt Optional AWS account profile name
+     * @param endpointUrlOpt Optional endpoint URL for testing when mocking out AWS services
      */
     void execute(
             Path cloudAssemblyDirectory,
@@ -29,7 +30,8 @@ public interface Bootstrap {
             Set<String> stacks,
             Map<String, String> bootstrapParameters,
             Map<String, String> bootstrapTags,
-            Optional<String> profileOpt);
+            Optional<String> profileOpt,
+            Optional<String> endpointUrlOpt);
 
     /**
      * Bootstrap CDK for all stacks
@@ -70,6 +72,7 @@ public interface Bootstrap {
      * will be reused.
      * @param bootstrapTags Tags that will be added to the bootstrap stack.
      * @param profileOpt Optional AWS account profile name
+     * @param endpointUrlOpt Optional endpoint URL for testing when mocking out AWS services
      */
     void execute(
             CloudAssembly cloudAssembly,
@@ -77,5 +80,6 @@ public interface Bootstrap {
             Set<String> stacks,
             Map<String, String> bootstrapParameters,
             Map<String, String> bootstrapTags,
-            Optional<String> profileOpt);
+            Optional<String> profileOpt,
+            Optional<String> endpointUrlOpt);
 }

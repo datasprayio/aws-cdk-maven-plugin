@@ -15,6 +15,7 @@ import software.amazon.awssdk.services.sts.StsClient;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,17 +45,20 @@ public class EnvironmentResolver {
     private final Region defaultRegion;
     private final String defaultAccount;
     private final AccountCredentialsProvider accountCredentialsProvider;
+    private final Optional<URI> endpointUriOpt;
 
-    private EnvironmentResolver(Region defaultRegion, @Nullable String defaultAccount, AccountCredentialsProvider accountCredentialsProvider) {
+    private EnvironmentResolver(Region defaultRegion, @Nullable String defaultAccount, AccountCredentialsProvider accountCredentialsProvider, Optional<URI> endpointUriOpt) {
         this.defaultRegion = defaultRegion;
         this.defaultAccount = defaultAccount;
         this.accountCredentialsProvider = accountCredentialsProvider;
+        this.endpointUriOpt = endpointUriOpt;
     }
 
-    public static EnvironmentResolver create(@Nullable String profile) {
+    public static EnvironmentResolver create(@Nullable String profile, Optional<String> endpointUrlOpt) {
+        Optional<URI> endpointUriOpt = endpointUrlOpt.map(URI::create);
         Region defaultRegion = fetchDefaultRegion(profile).orElse(Region.US_EAST_1); // us-east-1 is used by default in CDK
         AwsCredentials defaultCredentials = fetchDefaultCredentials(profile).orElse(null);
-        String defaultAccount = defaultCredentials != null ? fetchAccount(defaultRegion, defaultCredentials) : null;
+        String defaultAccount = defaultCredentials != null ? fetchAccount(defaultRegion, defaultCredentials, endpointUriOpt) : null;
         List<AccountCredentialsProvider> credentialsProviders = new ArrayList<>();
         if (defaultCredentials != null) {
             credentialsProviders.add(accountId -> {
@@ -67,7 +71,7 @@ public class EnvironmentResolver {
         }
 
         AccountCredentialsProvider credentialsProvider = new AccountCredentialsProviderChain(credentialsProviders);
-        return new EnvironmentResolver(defaultRegion, defaultAccount, credentialsProvider);
+        return new EnvironmentResolver(defaultRegion, defaultAccount, credentialsProvider, endpointUriOpt);
     }
 
     /**
@@ -146,7 +150,7 @@ public class EnvironmentResolver {
                 .orElseThrow(() -> new CdkException("Credentials for the account '" + account +
                         "' are not available."));
 
-        return new ResolvedEnvironment(partition, region, account, credentials);
+        return new ResolvedEnvironment(partition, region, account, credentials, endpointUriOpt);
     }
 
     @Nonnull
@@ -162,10 +166,11 @@ public class EnvironmentResolver {
     /**
      * Returns an account number for the given credentials.
      */
-    private static String fetchAccount(Region region, AwsCredentials credentials) {
+    private static String fetchAccount(Region region, AwsCredentials credentials, Optional<URI> endpointUriOpt) {
         StsClient stsClient = StsClient.builder()
                 .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                .endpointOverride(endpointUriOpt.orElse(null))
                 .build();
         return stsClient.getCallerIdentity().account();
     }

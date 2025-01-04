@@ -40,7 +40,7 @@ public class BootstrapMojo extends AbstractCdkMojo {
     private Set<String> stacks;
 
     @Override
-    public void execute(Path cloudAssemblyDirectory, Optional<String> profileOpt) {
-        AwsCdk.bootstrap().execute(cloudAssemblyDirectory, toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt);
+    public void execute(Path cloudAssemblyDirectory, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        AwsCdk.bootstrap().execute(cloudAssemblyDirectory, toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt, endpointUrlOpt);
     }
 }

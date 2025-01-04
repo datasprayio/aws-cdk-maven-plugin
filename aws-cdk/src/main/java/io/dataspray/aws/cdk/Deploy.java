@@ -23,6 +23,7 @@ public interface Deploy {
      * @param tags Tags that will be added to the stacks.
      * @param notificationArns SNS ARNs to publish stack related events.
      * @param profileOpt Optional AWS account profile name
+     * @param endpointUrlOpt Optional endpoint URL for testing when mocking out AWS services
      */
     void execute(
             Path cloudAssemblyDirectory,
@@ -31,7 +32,8 @@ public interface Deploy {
             Map<String, String> parameters,
             Map<String, String> tags,
             Set<String> notificationArns,
-            Optional<String> profileOpt);
+            Optional<String> profileOpt,
+            Optional<String> endpointUrlOpt);
 
     /**
      * Deploy the synthesized templates to AWS for all stacks
@@ -73,6 +75,7 @@ public interface Deploy {
      * @param tags Tags that will be added to the stacks.
      * @param notificationArns SNS ARNs to publish stack related events.
      * @param profileOpt Optional AWS account profile name
+     * @param endpointUrlOpt Optional endpoint URL for testing when mocking out AWS services
      */
     void execute(
             CloudAssembly cloudAssembly,
@@ -81,5 +84,6 @@ public interface Deploy {
             Map<String, String> parameters,
             Map<String, String> tags,
             Set<String> notificationArns,
-            Optional<String> profileOpt);
+            Optional<String> profileOpt,
+            Optional<String> endpointUrlOpt);
 }

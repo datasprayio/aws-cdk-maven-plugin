@@ -94,6 +94,7 @@ public class FileAssetPublisher {
             this.s3Client = S3AsyncClient.crtBuilder()
                     .region(environment.getRegion())
                     .credentialsProvider(environment.getCredentialsProvider())
+                    .endpointOverride(environment.getEndpointUriOpt().orElse(null))
                     .minimumPartSizeInBytes((long) MINIMUM_PART_SIZE)
                     .build();
         }

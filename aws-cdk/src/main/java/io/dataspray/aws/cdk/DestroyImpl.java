@@ -20,34 +20,34 @@ public class DestroyImpl implements Destroy {
     private static final Logger logger = LoggerFactory.getLogger(DestroyImpl.class);
 
     @Override
-    public void execute(Path cloudAssemblyDirectory, Set<String> stacks, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssemblyDirectory), stacks, profileOpt);
+    public void execute(Path cloudAssemblyDirectory, Set<String> stacks, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssemblyDirectory), stacks, profileOpt, endpointUrlOpt);
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly) {
         execute(cloudAssembly,
                 ImmutableSet.copyOf(Lists.transform(cloudAssembly.getStacks(), CloudFormationStackArtifact::getStackName)),
-                Optional.empty());
+                Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, String... stacks) {
-        execute(cloudAssembly, ImmutableSet.copyOf(stacks), Optional.empty());
+        execute(cloudAssembly, ImmutableSet.copyOf(stacks), Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, Set<String> stacks, String profile) {
-        execute(cloudAssembly, stacks, Optional.of(profile));
+        execute(cloudAssembly, stacks, Optional.of(profile), Optional.empty());
     }
 
     @Override
-    public void execute(CloudAssembly cloudAssembly, Set<String> stacks, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssembly), stacks, profileOpt);
+    public void execute(CloudAssembly cloudAssembly, Set<String> stacks, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssembly), stacks, profileOpt, endpointUrlOpt);
     }
 
-    private void execute(CloudDefinition cloudDefinition, Set<String> stacks, Optional<String> profileOpt) {
-        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null));
+    private void execute(CloudDefinition cloudDefinition, Set<String> stacks, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null), endpointUrlOpt);
         if (stacks != null && !stacks.isEmpty() && logger.isWarnEnabled()) {
             Set<String> undefinedStacks = new HashSet<>(stacks);
             cloudDefinition.getStacks().forEach(stack -> undefinedStacks.remove(stack.getStackName()));

@@ -100,6 +100,7 @@ public class DockerImageAssetPublisher {
             this.ecrClient = EcrClient.builder()
                     .region(environment.getRegion())
                     .credentialsProvider(environment.getCredentialsProvider())
+                    .endpointOverride(environment.getEndpointUriOpt().orElse(null))
                     .build();
         }
 

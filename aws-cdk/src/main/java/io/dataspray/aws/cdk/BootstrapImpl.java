@@ -42,34 +42,34 @@ public class BootstrapImpl implements Bootstrap {
     private static final String BOOTSTRAP_VERSION_OUTPUT = "BootstrapVersion";
 
     @Override
-    public void execute(Path cloudAssemblyDirectory, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssemblyDirectory), toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt);
+    public void execute(Path cloudAssemblyDirectory, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssemblyDirectory), toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt, endpointUrlOpt);
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly) {
         execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME,
                 ImmutableSet.copyOf(Lists.transform(cloudAssembly.getStacks(), CloudFormationStackArtifact::getStackName)),
-                null, null, Optional.empty());
+                null, null, Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, String... stacks) {
-        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, ImmutableSet.copyOf(stacks), null, null, Optional.empty());
+        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, ImmutableSet.copyOf(stacks), null, null, Optional.empty(), Optional.empty());
     }
 
     @Override
     public void execute(CloudAssembly cloudAssembly, Set<String> stacks, String profile) {
-        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, stacks, null, null, Optional.of(profile));
+        execute(cloudAssembly, AwsCdk.DEFAULT_TOOLKIT_STACK_NAME, stacks, null, null, Optional.of(profile), Optional.empty());
     }
 
     @Override
-    public void execute(CloudAssembly cloudAssembly, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt) {
-        execute(CloudDefinition.create(cloudAssembly), toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt);
+    public void execute(CloudAssembly cloudAssembly, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        execute(CloudDefinition.create(cloudAssembly), toolkitStackName, stacks, bootstrapParameters, bootstrapTags, profileOpt, endpointUrlOpt);
     }
 
-    private void execute(CloudDefinition cloudDefinition, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt) {
-        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null));
+    private void execute(CloudDefinition cloudDefinition, String toolkitStackName, Set<String> stacks, Map<String, String> bootstrapParameters, Map<String, String> bootstrapTags, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null), endpointUrlOpt);
         Map<String, Integer> environments = cloudDefinition.getStacks().stream()
                 .filter(stack -> stacks == null || stacks.isEmpty() || stacks.contains(stack.getStackName()))
                 .collect(Collectors.groupingBy(

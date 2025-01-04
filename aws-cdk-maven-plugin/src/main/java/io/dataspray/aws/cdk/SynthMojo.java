@@ -112,8 +112,8 @@ public class SynthMojo extends AbstractCdkMojo implements ContextEnabled {
     private Map<ContextProvider, ContextProviderMapper<?>> contextProviders;
 
     @Override
-    public void execute(Path cloudAssemblyDirectory, Optional<String> profileOpt) {
-        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null));
+    public void execute(Path cloudAssemblyDirectory, Optional<String> profileOpt, Optional<String> endpointUrlOpt) {
+        EnvironmentResolver environmentResolver = EnvironmentResolver.create(profileOpt.orElse(null), endpointUrlOpt);
         this.processRunner = new DefaultProcessRunner(project.getBasedir());
         this.contextProviders = initContextProviders(environmentResolver);
         synthesize(app, arguments != null ? arguments : Collections.emptyList(), cloudAssemblyDirectory, environmentResolver);
@@ -128,6 +128,7 @@ public class SynthMojo extends AbstractCdkMojo implements ContextEnabled {
                     return Route53Client.builder()
                             .region(Region.AWS_GLOBAL)
                             .credentialsProvider(StaticCredentialsProvider.create(resolvedEnvironment.getCredentials()))
+                            .endpointOverride(resolvedEnvironment.getEndpointUriOpt().orElse(null))
                             .build();
                 })
                 .build();
@@ -144,6 +145,7 @@ public class SynthMojo extends AbstractCdkMojo implements ContextEnabled {
     private <B extends AwsClientBuilder<B, C>, C> C buildClient(B builder, ResolvedEnvironment environment) {
         return builder.region(environment.getRegion())
                 .credentialsProvider(StaticCredentialsProvider.create(environment.getCredentials()))
+                .endpointOverride(environment.getEndpointUriOpt().orElse(null))
                 .build();
     }
 

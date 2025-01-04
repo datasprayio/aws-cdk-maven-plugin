@@ -18,6 +18,7 @@ public class CloudFormationClientProvider {
         return clients.computeIfAbsent(environment.getName(), name -> CloudFormationClient.builder()
                 .region(environment.getRegion())
                 .credentialsProvider(environment.getCredentialsProvider())
+                .endpointOverride(environment.getEndpointUriOpt().orElse(null))
                 .httpClientBuilder(ApacheHttpClient.builder()
                         .maxConnections(200)
                         .connectionAcquisitionTimeout(Duration.ofSeconds(60))

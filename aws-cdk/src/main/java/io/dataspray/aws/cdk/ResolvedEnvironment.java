@@ -7,6 +7,9 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.PartitionMetadata;
 import software.amazon.awssdk.regions.Region;
 
+import java.net.URI;
+import java.util.Optional;
+
 /**
  * Represents a resolved execution environment.
  */
@@ -18,13 +21,15 @@ public class ResolvedEnvironment {
     private final Region region;
     private final String account;
     private final AwsCredentialsProvider credentialsProvider;
+    private final Optional<URI> endpointUriOpt;
 
-    public ResolvedEnvironment(PartitionMetadata partition, Region region, String account, AwsCredentials credentials) {
+    public ResolvedEnvironment(PartitionMetadata partition, Region region, String account, AwsCredentials credentials, Optional<URI> endpointUriOpt) {
         this.name = partition.id() + "://" + account + "/" + region;
         this.partition = partition;
         this.region = region;
         this.account = account;
         this.credentialsProvider = StaticCredentialsProvider.create(credentials);
+        this.endpointUriOpt = endpointUriOpt;
     }
 
     public AwsCredentials getCredentials() {

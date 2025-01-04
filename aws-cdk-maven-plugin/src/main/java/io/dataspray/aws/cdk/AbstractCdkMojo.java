@@ -29,6 +29,12 @@ public abstract class AbstractCdkMojo extends AbstractMojo {
     private String profile;
 
     /**
+     * A profile that will be used while looking for credentials and region.
+     */
+    @Parameter(property = "aws.endpointUrl")
+    private String endpointUrl;
+
+    /**
      * A cloud assembly directory.
      */
     @Parameter(property = "aws.cdk.cloud.assembly.directory", defaultValue = "${project.build.directory}/cdk.out")
@@ -45,7 +51,8 @@ public abstract class AbstractCdkMojo extends AbstractMojo {
         if (!skip) {
             try {
                 execute(cloudAssemblyDirectory.toPath(),
-                        Optional.ofNullable(Strings.emptyToNull(profile)));
+                        Optional.ofNullable(Strings.emptyToNull(profile)),
+                        Optional.ofNullable(Strings.emptyToNull(endpointUrl)));
             } catch (Exception e) {
                 throw new MojoExecutionException(e.getMessage(), e);
             }
@@ -56,5 +63,6 @@ public abstract class AbstractCdkMojo extends AbstractMojo {
 
     public abstract void execute(
             Path cloudAssemblyDirectory,
-            Optional<String> profileOpt);
+            Optional<String> profileOpt,
+            Optional<String> endpointUrlOpt);
 }

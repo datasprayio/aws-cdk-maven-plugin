@@ -26,6 +26,7 @@ public class DeployBasicTestApp {
                 ImmutableMap.of("Parameter", "OverriddenValue"),
                 ImmutableMap.of("testTag", "testTagValue"),
                 ImmutableSet.of(),
+                Optional.empty(),
                 Optional.empty());
     }
 
