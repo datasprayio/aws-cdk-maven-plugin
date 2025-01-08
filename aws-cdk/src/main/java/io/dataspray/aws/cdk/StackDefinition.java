@@ -4,8 +4,8 @@ package io.dataspray.aws.cdk;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
-import software.amazon.awscdk.cloud_assembly_schema.ContainerImageAssetMetadataEntry;
-import software.amazon.awscdk.cloud_assembly_schema.FileAssetMetadataEntry;
+import software.amazon.awscdk.cloudassembly.schema.ContainerImageAssetMetadataEntry;
+import software.amazon.awscdk.cloudassembly.schema.FileAssetMetadataEntry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

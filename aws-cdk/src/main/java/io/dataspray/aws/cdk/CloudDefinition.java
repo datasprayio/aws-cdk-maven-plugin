@@ -7,7 +7,8 @@ import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.amazon.awscdk.cloud_assembly_schema.*;
+import software.amazon.awscdk.cloud_assembly_schema.AssemblyManifest;
+import software.amazon.awscdk.cloudassembly.schema.*;
 import software.amazon.awscdk.cxapi.CloudAssembly;
 import software.amazon.jsii.JsiiObject;
 import software.amazon.jsii.Kernel;
@@ -124,7 +125,7 @@ public class CloudDefinition {
                             return;
                         }
                         String packaging = Kernel.get(entry.getData(), "packaging", NativeType.forClass(String.class));
-                        if (entry.getData() == null) {
+                        if (packaging == null) {
                             throw new CdkException("Manifest asset with missing packaging under data for path " + entry.getPath());
                         }
                         switch (packaging) {

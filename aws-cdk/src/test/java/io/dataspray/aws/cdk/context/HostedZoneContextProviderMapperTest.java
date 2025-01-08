@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import software.amazon.awscdk.cloud_assembly_schema.HostedZoneContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.HostedZoneContextQuery;
 import software.amazon.awssdk.services.route53.Route53Client;
 import software.amazon.awssdk.services.route53.model.*;
 

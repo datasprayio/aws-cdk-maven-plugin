@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import software.amazon.awscdk.cloud_assembly_schema.AmiContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.AmiContextQuery;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeImagesRequest;

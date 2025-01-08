@@ -1,7 +1,7 @@
 package io.dataspray.aws.cdk.context;
 
 import io.dataspray.aws.cdk.CdkException;
-import software.amazon.awscdk.cloud_assembly_schema.AmiContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.AmiContextQuery;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeImagesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeImagesResponse;

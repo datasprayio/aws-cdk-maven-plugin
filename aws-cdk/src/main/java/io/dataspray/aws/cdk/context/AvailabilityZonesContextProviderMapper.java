@@ -1,6 +1,6 @@
 package io.dataspray.aws.cdk.context;
 
-import software.amazon.awscdk.cloud_assembly_schema.AvailabilityZonesContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.AvailabilityZonesContextQuery;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.AvailabilityZone;
 import software.amazon.awssdk.services.ec2.model.AvailabilityZoneState;

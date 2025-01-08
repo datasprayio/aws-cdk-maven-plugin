@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import software.amazon.awscdk.cloud_assembly_schema.AvailabilityZonesContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.AvailabilityZonesContextQuery;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.AvailabilityZone;
 import software.amazon.awssdk.services.ec2.model.AvailabilityZoneState;

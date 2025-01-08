@@ -11,7 +11,7 @@ import io.dataspray.aws.cdk.CdkException;
 import io.dataspray.aws.cdk.MoreCollectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import software.amazon.awscdk.cloud_assembly_schema.VpcContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.VpcContextQuery;
 import software.amazon.awscdk.cxapi.VpcSubnet;
 import software.amazon.awscdk.cxapi.VpcSubnetGroup;
 import software.amazon.awscdk.cxapi.VpcSubnetGroupType;

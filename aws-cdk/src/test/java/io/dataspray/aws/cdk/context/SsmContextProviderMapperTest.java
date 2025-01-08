@@ -4,7 +4,7 @@ import io.dataspray.aws.cdk.CdkException;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import software.amazon.awscdk.cloud_assembly_schema.SSMParameterContextQuery;
+import software.amazon.awscdk.cloudassembly.schema.SSMParameterContextQuery;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
