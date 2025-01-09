@@ -136,11 +136,6 @@
                 <version>39.1.41</version>
             </dependency>
             <dependency>
-                <groupId>software.amazon.awscdk</groupId>
-                <artifactId>cdk-cx-api</artifactId>
-                <version>${aws.cdk.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>software.amazon.jsii</groupId>
                 <artifactId>jsii-runtime</artifactId>
                 <version>${aws.cdk.jsii.version}</version>

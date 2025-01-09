@@ -2,13 +2,13 @@ package io.dataspray.aws.cdk;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import software.amazon.awscdk.cloud_assembly_schema.AssemblyManifest;
 import software.amazon.awscdk.cloudassembly.schema.*;
+import software.amazon.awscdk.cxapi.CloudArtifact;
 import software.amazon.awscdk.cxapi.CloudAssembly;
 import software.amazon.jsii.JsiiObject;
 import software.amazon.jsii.Kernel;
@@ -86,7 +86,11 @@ public class CloudDefinition {
 
     public static CloudDefinition create(CloudAssembly cloudAssembly) {
         Path cloudAssemblyDirectory = Paths.get(cloudAssembly.getDirectory());
-        AssemblyManifest assemblyManifest = cloudAssembly.getManifest();
+        // Do not use the following since it returns the outdated internally bundled cloud schema class
+        // in the package software.amazon.awscdk.cloud_assembly_schema.AssemblyManifest
+        //        cloudAssembly.getManifest();
+        //        Kernel.get(cloudAssembly, "manifest", NativeType.forClass(AssemblyManifest.class));
+        AssemblyManifest assemblyManifest = Manifest.loadAssemblyManifest(cloudAssemblyDirectory.resolve("manifest.json").toString());
 
         Map<String, FileAsset> fileAssets = Maps.newHashMap();
         Map<String, DockerImageAsset> imageAssets = Maps.newHashMap();
@@ -151,7 +155,7 @@ public class CloudDefinition {
                             .parameters(parameters)
                             .parameterValues(parameterValues)
                             .resources(resources)
-                            .dependencies(stack.getManifest().getDependencies() != null ? stack.getManifest().getDependencies() : ImmutableList.of())
+                            .dependencies(Lists.transform(stack.getDependencies(), CloudArtifact::getId))
                             .build();
                 })
                 .collect(Collectors.toMap(StackDefinition::getStackName, Function.identity()));

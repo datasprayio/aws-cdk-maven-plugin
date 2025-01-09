@@ -30,10 +30,6 @@
             <artifactId>cdk-cloud-assembly-schema</artifactId>
         </dependency>
         <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>cdk-cx-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>software.amazon.jsii</groupId>
             <artifactId>jsii-runtime</artifactId>
         </dependency>
