@@ -258,9 +258,10 @@ public class StackDeployer {
                     .orElse(0);
             if (toolkitStackVersion < stack.getRequiredToolkitStackVersion()) {
                 throw StackDeploymentException.builder(stack.getStackName(), environment)
-                        .withCause("The toolkit stack version is lower than the minimum version required by the " +
-                                "stack. Please update the toolkit stack or add 'bootstrap' goal to the plugin " +
-                                "execution if you want the plugin to automatically create or update toolkit stack")
+                        .withCause("The toolkit stack version '" + outputs.get(BOOTSTRAP_VERSION_OUTPUT) + "' is lower than"
+                                + " the minimum version '" + stack.getRequiredToolkitStackVersion() + "' required by the stack."
+                                + " Please update the toolkit stack or add 'bootstrap' goal to the plugin"
+                                + " execution if you want the plugin to automatically create or update toolkit stack")
                         .build();
             }
         }
