@@ -52,7 +52,7 @@
         <maven.tools.version>3.10.1</maven.tools.version>
         <aws.crt.version>0.33.7</aws.crt.version>
         <aws.sdk.version>2.29.47</aws.sdk.version>
-        <aws.cdk.version>2.174.1</aws.cdk.version>
+        <aws.cdk.version>2.175.1</aws.cdk.version>
         <aws.cdk.jsii.version>1.106.0</aws.cdk.jsii.version>
         <githubReleaseVersion>${project.version}</githubReleaseVersion>
         <skipTests />
@@ -133,7 +133,7 @@
             <dependency>
                 <groupId>software.amazon.awscdk</groupId>
                 <artifactId>cdk-cloud-assembly-schema</artifactId>
-                <version>39.1.41</version>
+                <version>39.1.46</version>
             </dependency>
             <dependency>
                 <groupId>software.amazon.jsii</groupId>
