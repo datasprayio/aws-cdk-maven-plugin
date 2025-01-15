@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.dataspray</groupId>
         <artifactId>aws-cdk-parent</artifactId>
-        <version>2.3.4</version>
+        <version>2.3.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>aws-cdk-integration-tests</artifactId>
